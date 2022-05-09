@@ -1,5 +1,5 @@
 import { firebase, db } from "./configDB.js";
-import { collection, addDoc, doc, updateDoc} from "firebase/firestore";
+import { collection, addDoc, doc, updateDoc, getDocs} from "firebase/firestore";
 
 export function getDate(){
     var today = new Date();
@@ -11,6 +11,24 @@ export function getDate(){
     return `${date}  ${time}`
 }
 
+export async function getPayments(){
+    var arr = [] 
+    try{  
+        const querySnapshot = await getDocs(collection(db, 'pagamentos'))
+        .then(querySnapshot =>{querySnapshot.forEach((doc) =>{
+            arr.push({
+                id: doc.id,
+                data: doc.data() 
+            })
+        })})
+        
+        return arr
+
+    }catch(e){
+        console.log('error: ', e)
+    }
+}
+
 
 // Funcao para inserir novo pagamento
 export async function PaymentAdd() {
@@ -19,7 +37,7 @@ export async function PaymentAdd() {
         const docRef =  addDoc(collection(db, 'pagamentos'), 
            
             {
-                pagamento: 'pendente', 
+                status_pagamento: 'pendente', 
                 dataPedido: date,
                 dataPagamento: null
             }

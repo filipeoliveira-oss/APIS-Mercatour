@@ -1,11 +1,20 @@
-import {PaymentAdd, CancelPayment, ConcludePayment} from './Infra/dbFunctions.js'
+import {PaymentAdd, CancelPayment, ConcludePayment, getPayments} from './Infra/dbFunctions.js'
 import express from 'express'
 const app = express()
 
 app.use(express.json())
 
+app.get('/payment/list', async function (req, res) {
 
-app.post('/paymente/create', function (req, res) {
+    const paymentsList = await getPayments()
+    res.json({
+        mensagem: 'Lista de pagamentos cadastrados',
+        paymentsList
+    })
+
+})
+
+app.post('/payment/create', function (req, res) {
     PaymentAdd()
     res.json({mensagem: 'Novo pagamento cadastrado'})
 })
