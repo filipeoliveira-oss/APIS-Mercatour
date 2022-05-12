@@ -56,7 +56,7 @@ export async function CancelPayment(id) {
         const toUpdate =  doc(db, "pagamentos", `${id}`);
 
         updateDoc(toUpdate, {
-            pagamento: 'cancelado',
+            status_pagamento: 'cancelado',
             dataPagamento: date
         })
 
@@ -73,7 +73,7 @@ export async function ConcludePayment(id) {
         const toUpdate =  doc(db, "pagamentos", `${id}`);
 
         updateDoc(toUpdate, {
-            pagamento: 'Concluído',
+            status_pagamento: 'Concluído',
             dataPagamento: date
         })
 
